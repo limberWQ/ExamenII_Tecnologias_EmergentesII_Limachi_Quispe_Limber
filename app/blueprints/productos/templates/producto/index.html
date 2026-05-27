@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Listado de Productos</h1>
+<div class="container mt-4">
+    <div class="mb-4 d-flex gap-2 flex-wrap">
+        <a href="{{ url_for('bp_productos.create') }}" class="btn btn-primary">Nuevo Producto</a>
+        <a href="{{ url_for('bp_core.index') }}" class="btn btn-success">Volver</a>
+    </div>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="card-custom">
+                <table class="table">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Precio</th>
+                            <th>Stock</th>
+                            <th colspan="2">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in productos %}
+                        <tr>
+                            <td>{{ item.nombre }}</td>
+                            <td>{{ "%.2f"|format(item.precio) }}</td>
+                            <td>{{ item.stock }}</td>
+                            <td>
+                                <a href="{{ url_for('bp_productos.edit', id=item.id) }}" class="btn btn-warning">Editar</a>
+                            </td>
+                            <td>
+                                <a href="{{ url_for('bp_productos.delete', id=item.id) }}" class="btn btn-danger">Eliminar</a>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="5" class="text-center">No hay productos registrados.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

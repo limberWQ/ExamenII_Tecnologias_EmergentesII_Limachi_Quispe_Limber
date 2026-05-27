@@ -1,14 +1,14 @@
 from flask import Blueprint, render_template, request, redirect, url_for
-from app import db
+from app.__init__ import db
 
-from app.blueprint.productos.models import Producto
+from app.blueprints.productos.models import Producto
 
 bp_productos = Blueprint("bp_productos", __name__, template_folder="templates")
 
 @bp_productos.route('/')
 def index():
     productos = Producto.query.all()
-    return render_template("index.html", pruductos=productos)
+    return render_template('producto/index.html', productos=productos)
 
 #crear
 @bp_productos.route('/create', methods = ['GET','POST'])
@@ -34,7 +34,7 @@ def create():
 def edit(id):
     producto = Producto.query.filter_by(id=id).first()
     if request.method == 'GET':
-        return redirect(url_for('bp_productos.index'))
+        return render_template('producto/edit.html', producto=producto)
     elif request.method == 'POST':
         producto.nombre = request.form.get('nombre')
         producto.precio = request.form.get('precio')
@@ -48,5 +48,4 @@ def delete(id):
     
     db.session.delete(producto)
     db.session.commit()
-    
-    return redirect(url_for('bp_producto.index'))
+    return redirect(url_for('bp_productos.index'))

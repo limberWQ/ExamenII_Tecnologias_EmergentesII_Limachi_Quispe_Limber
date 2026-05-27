@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block titulo %}Inicio{% endblock %}
+{% block content %}
+<div class="text-center mt-5">
+    <h1>Bienvenido a TechBol</h1>
+    <div class="mt-4 d-flex justify-content-center gap-3">
+        <a href="{{ url_for('bp_productos.index') }}" class="btn btn-primary">Productos</a>
+        <a href="{{ url_for('bp_cliente.index') }}" class="btn btn-secondary">Clientes</a>
+        <a href="{{ url_for('bp_pedidos.index') }}" class="btn btn-success">Pedidos</a>
+    </div>
+</div>
+{% endblock %}

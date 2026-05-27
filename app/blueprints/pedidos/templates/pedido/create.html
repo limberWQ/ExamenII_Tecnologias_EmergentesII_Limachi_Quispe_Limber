@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Nuevo Pedido</h1>
+    <div class="card p-4 mt-3">
+        <form action="{{ url_for('bp_pedidos.create') }}" method="POST">
+            
+            <div class="mb-3">
+                <label for="fecha" class="form-label">Fecha</label>
+                <input type="date" class="form-control" id="fecha" name="fecha" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="monto" class="form-label">Monto</label>
+                <input type="number" step="0.01" class="form-control" id="monto" name="monto" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="producto_id" class="form-label">Producto</label>
+                <select class="form-select" id="producto_id" name="producto_id" required>
+                    <option value="" selected disabled>Selecciona un producto</option>
+                    {% for producto in productos %}
+                        {% if producto.stock > 0 %}
+                    <option value="{{ producto.id }}">
+                        {{ producto.nombre }} (Stock: {{ producto.stock }}) (Precio: BS.{{ producto.precio }})
+                    </option>
+                {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="cliente_id" class="form-label">Cliente</label>
+                <select class="form-select" id="cliente_id" name="cliente_id" required>
+                    <option value="" selected disabled>Selecciona un cliente</option>
+                    {% for cliente in clientes %}
+                        <option value="{{ cliente.id }}">{{ cliente.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">Guardar Pedido</button>
+                <a href="{{ url_for('bp_pedidos.index') }}" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

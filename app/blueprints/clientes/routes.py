@@ -1,14 +1,14 @@
 from flask import Blueprint, render_template, request, redirect, url_for
-from app import db
+from app.__init__ import db
 
-from app.blueprint.clientes.models import Cliente
+from app.blueprints.clientes.models import Cliente
 
 bp_cliente = Blueprint("bp_cliente", __name__, template_folder="templates")
 
 @bp_cliente.route('/')
 def index():
     clientes = Cliente.query.all()
-    return render_template("index.html", clientes=clientes)
+    return render_template('cliente/index.html', clientes=clientes)
 
 #crear
 @bp_cliente.route('/create', methods = ['GET','POST'])
@@ -33,7 +33,7 @@ def create():
 def edit(id):
     cliente = Cliente.query.filter_by(id=id).first()
     if request.method == 'GET':
-        return redirect(url_for('bp_cliente.index'))
+        return render_template('cliente/edit.html', cliente=cliente)
     elif request.method == 'POST':
         cliente.nombre = request.form.get('nombre')
         cliente.telefono = request.form.get('telefono')
